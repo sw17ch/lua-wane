@@ -1,0 +1,12 @@
+resolver: lts-5.15
+packages:
+  - '.'
+  - location:
+      git: https://github.com/sw17ch/language-lua.git
+      commit: b7b2a9827d7d888a0ed24e85b634c4fec9e4e237
+
+flags: {}
+
+extra-deps: []
+
+extra-package-dbs: []
