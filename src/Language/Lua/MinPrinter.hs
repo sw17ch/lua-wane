@@ -164,7 +164,7 @@ instance LMin Block where
     minprint (Block stats ret) =
       case stats of
         [] -> ret'
-        _  -> sep' (map minprint stats) <> ret'
+        _  -> sep' (map minprint stats) <+> ret'
       where ret' = case ret of
                      Nothing -> empty
                      Just [fun@EFunDef{}] -> text "return" <+> minprint fun
