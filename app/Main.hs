@@ -9,8 +9,8 @@ main :: IO ()
 main = runWithOptions wane
 
 wane :: WaneOptions -> IO ()
-wane (WaneOptions inf outf) = do
-  minlua <- minFile inf
+wane (WaneOptions keep inf outf) = do
+  minlua <- minFile keep inf
   if "-" == outf
      then putStr minlua
      else writeFile outf minlua

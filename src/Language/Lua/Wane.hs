@@ -4,10 +4,12 @@ module Language.Lua.Wane
 
 import Language.Lua.Parser
 import Language.Lua.MinPrinter
+import Language.Lua.ShortenNames (shortenNames)
 
-minFile :: FilePath -> IO String
-minFile fp = do
+minFile :: Bool -> FilePath -> IO String
+minFile keepNames fp = do
   lua <- parseFile fp
   case lua of
     Left err -> error (show err)
-    Right ast -> return (show (minprint ast))
+    Right ast -> return (show (minprint ast'))
+      where ast' = if keepNames then ast else shortenNames ast

@@ -16,8 +16,9 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Language.Lua.Wane
-  other-modules:       Language.Lua.MinPrinter
+  other-modules:       Language.Lua.MinPrinter, Language.Lua.ShortenNames
   build-depends:       base >= 4.7 && < 5
+                     , containers
                      , language-lua
                      , wl-pprint
   default-language:    Haskell2010

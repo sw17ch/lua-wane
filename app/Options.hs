@@ -6,7 +6,8 @@ module Options
 import Options.Applicative
 
 data WaneOptions = WaneOptions
-  { infile :: FilePath
+  { keepNames :: Bool
+  , infile :: FilePath
   , outfile :: FilePath
   } deriving (Show)
 
@@ -23,7 +24,11 @@ options = info (helper <*> optParser)
 
 optParser :: Parser WaneOptions
 optParser = WaneOptions
-  <$> strArgument
+  <$> switch
+    ( long "keep-names"
+   <> help "Retain the original variable names, instead of shortening them."
+    )
+  <*> strArgument
     ( metavar "INFILE"
    <> help "Lua input source file"
     )
