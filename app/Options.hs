@@ -7,6 +7,7 @@ import Options.Applicative
 
 data WaneOptions = WaneOptions
   { keepNames :: Bool
+  , prettyPrint :: Bool
   , infile :: FilePath
   , outfile :: FilePath
   } deriving (Show)
@@ -26,7 +27,11 @@ optParser :: Parser WaneOptions
 optParser = WaneOptions
   <$> switch
     ( long "keep-names"
-   <> help "Retain the original variable names, instead of shortening them."
+   <> help "Keep the original variable names."
+    )
+  <*> switch
+    ( long "pretty-print"
+   <> help "Pretty print the resulting Lua code."
     )
   <*> strArgument
     ( metavar "INFILE"

@@ -113,12 +113,20 @@ genNicks env0 names = fmap reverse $ foldl' go (env0, []) names
 -- Of course, we could do more with numbers and underscores.
 --
 incrNick :: String -> String
-incrNick =
+incrNick nick =
+    if next `elem` reservedNames then
+      incrNick next
+    else
+      next
+
+  where
+    reservedNames = ["self"]
+
     -- We increment like a decimal numeral, so it's easier if we start
     -- with the "one's place".
     --
-    reverse . go . reverse
-  where
+    next = reverse . go . reverse $ nick
+
     go "_"    = "a"   -- special case
     go []     = "a"
     go (c:cs) =
@@ -159,9 +167,13 @@ shortenNames block =
     Block (assign_ENV : stats) mexps
   where
     Block stats mexps = zap initialEnv block
-    initialEnv = Env { substitutions = Map.insert "_ENV" nick Map.empty, currNick = nick }
+    initialEnv = Env { substitutions = subs, currNick = nick }
     assign_ENV = LocalAssign [nick] (Just [PrefixExp $ PEVar $ VarName "_ENV"])
     nick = "_"
+    subs =
+      Map.insert "_ENV" nick $
+      Map.insert "self" "self" $
+      Map.empty
 
 
 -- Throwaway test functions
