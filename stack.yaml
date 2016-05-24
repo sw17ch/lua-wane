@@ -7,6 +7,7 @@ packages:
 
 flags: {}
 
-extra-deps: []
+extra-deps:
+  - gitrev-1.2.0
 
 extra-package-dbs: []

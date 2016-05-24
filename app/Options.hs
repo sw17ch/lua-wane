@@ -4,6 +4,7 @@ module Options
        ) where
 
 import Options.Applicative
+import Version
 
 data WaneOptions = WaneOptions
   { infile :: FilePath
@@ -12,14 +13,21 @@ data WaneOptions = WaneOptions
 
 
 runWithOptions :: (WaneOptions  -> IO ()) -> IO ()
-runWithOptions fn = execParser options >>= fn
+runWithOptions fn = do
+  mopts <- execParser options
+  case mopts of
+    Just opts -> fn opts
+    Nothing -> putStr versionString
 
-options :: ParserInfo WaneOptions
-options = info (helper <*> optParser)
+options :: ParserInfo (Maybe WaneOptions)
+options = info (helper <*> o)
           ( fullDesc
          <> progDesc "Minify Lua code by removing extra spaces and comments."
          <> header "lua-wane - a Lua source code minifier"
           )
+  where
+  o = flag' Nothing (long "version" <> hidden)
+      <|> (Just <$> optParser)
 
 optParser :: Parser WaneOptions
 optParser = WaneOptions
